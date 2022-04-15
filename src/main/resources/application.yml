@@ -1,0 +1,101 @@
+spring:
+  # 关闭Thymeleaf缓存
+  thymeleaf:
+    # �رջ���
+    cache: false
+  # ����Դ����
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seckill?useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    # �������ӳ�
+    hikari:
+      # ���ӳ���
+      pool-name: DateHikariCP
+      # ��С����������
+      minimum-idle: 5
+      # �������Ӵ�����ʱ�䣬Ĭ�ϣ�10 ���ӣ�
+      idle-timeout: 600000
+      # ����������� Ĭ�� 10
+      maximum-pool-size: 10
+      # �����ӳط��ص����ӵ��Զ��ύ
+      auto-commit: true
+      # �������Ĵ��ʱ�䣬0��ʾ���ô�Ĭ��180000��30���ӣ�
+      max-lifetime: 180000
+      # ���ӳ�ʱʱ�䡣Ĭ�ϣ�30�룩
+      connection-timeout: 30000
+      # ���������Ƿ���õĲ�ѯ���
+      connection-test-query: SELECT 1
+  groovy:
+    template:
+      configuration:
+        declaration-encoding:
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 10000ms
+    lettuce:
+      pool:
+        # 最大连接数
+        max-active: 8
+        # 最大连接阻塞等待时间
+        max-wait: 10000ms
+        # 最大空闲连接
+        max-idle: 200
+        # 最小空闲连接
+        min-idle: 5
+  rabbitmq:
+    host: 127.0.0.1
+    username: guest
+    password: guest
+    virtual-host: /
+    port: 5672
+    listener:
+      simple:
+        # 消费者最小数量
+        concurrency: 10
+        # 消费者最大数量
+        max-concurrency: 10
+        # 限制消费者每次只处理一条消息，处理完再处理下一条
+        prefetch: 1
+        # 启动时是否默认启动容器，默认true
+        auto-startup: true
+        # 被拒绝时重新入队
+        default-requeue-rejected: true
+    template:
+      retry:
+        # 发布重试，默认false
+        enabled: true
+        # 重试时间，默认1000s
+        initial-interval: 1000
+        # 重试最大次数 3
+        max-attempts: 3
+        # 重试最大间隔时间，默认10000s
+        max-interval: 10000
+        # 重试间隔的乘数，比如配2.0，第一次等10s，第二次等20s，第三次等40s
+        multiplier: 1.0
+  web:
+    resources:
+      add-mappings: true
+      cache:
+        cachecontrol:
+          max-age: 3600
+      chain:
+        cache: true
+        enabled: true
+        compressed: true
+      static-locations: classpath:/static/
+# mybatis-plus����
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  # ����MyBatis���ݷ������ͱ�����Ĭ�ϱ�����������
+  type-aliases-package: com.javaproject.seckill.pojo
+
+# mybatis sql ��ӡ�������ӿ����ڵİ�������mapper.xml���ڵİ���
+logging:
+  level:
+    com.javaproject.seckill.mapper: debug
+
